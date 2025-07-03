@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nexcc</title>
+  <title>nexcc</title>
   <style>
-    body {
+     body {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -13,8 +13,8 @@
       min-height: 100vh;
       margin: 0;
       font-family: sans-serif;
-      background-color: #262424;
-      color: white;
+      background-color: #333330;
+      color: #fff;
     }
 
     .clickable-image {
@@ -30,166 +30,24 @@
     .clickable-image:active {
       transform: scale(0.95);
     }
-    
-    .shop {
-      margin: 20px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      width: 300px;
-      background-color: #262424;
-      display: none; 
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 10;
-    }
-
-    .shop-item {
-      display: flex;
-      justify-content: space-between;
-      margin: 10px 0;
-    }
-
-    .button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px;
-      text-align: center;
-      cursor: pointer;
-      border-radius: 10px;
-    }
-
-    .button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 5; 
-      display: none; 
-    }
-
-    .close-shop {
-      cursor: pointer;
-      color: red;
-      float: right;
-    }
   </style>
 </head>
 <body>
-  <h1>ID: <span id="userId"></span></h1>
-  <span id="click-count">0</span>
+  <h1><span id="click-count">0</span></h1>
   <img src="money.png" class="clickable-image" id="main-image" alt="image">
-
-  <button class="button" id="open-shop">Открыть магазин</button>
-
-  <div class="overlay" id="overlay"></div>
-  
-  <div class="shop" id="shop">
-    <span class="close-shop" id="close-shop">×</span>
-    <h3>Магазин</h3>
-    <div class="shop-item">
-      <span>Автокликер (100 кликов)</span>
-      <button class="button" id="buy-autoclicker">Купить</button>
-    </div>
-    <button class="button" id="stop-autoclicker" style="display: none;">Отключить автокликер</button>
-  </div>
 
   <script>
     const image = document.getElementById('main-image');
-    const numberDisplay = document.getElementById('click-count');
-    const buyAutoclicker = document.getElementById('buy-autoclicker');
-    const openShopButton = document.getElementById('open-shop');
-    const closeShopButton = document.getElementById('close-shop');
-    const shop = document.getElementById('shop');
-    const overlay = document.getElementById('overlay');
-    const stopAutoclickerButton = document.getElementById('stop-autoclicker');
-    
-    let number = parseInt(localStorage.getItem('click-count')) || 0;
-    let autoclickerActive = false;
-    let autoclickInterval;
+    const numberDisplay = document.getElementById('click-count'); 
+    let number = parseInt(localStorage.getItem('click-count')) || 0; 
 
-    numberDisplay.textContent = number;
+    numberDisplay.textContent = number; 
 
     image.addEventListener('click', function() {
-    number++;
-    numberDisplay.textContent = number;
-    localStorage.setItem('click-count', number);
-  });
-
-    openShopButton.addEventListener('click', function() {
-      overlay.style.display = 'block';
-      shop.style.display = 'block';
+      number++;
+      numberDisplay.textContent = number;
+      removeItem(number)   
     });
-
-    closeShopButton.addEventListener('click', function() {
-      overlay.style.display = 'none';
-      shop.style.display = 'none';
-    });
-
-    buyAutoclicker.addEventListener('click', function() {
-      if (number >= 10000) {
-        number -= 100;
-        numberDisplay.textContent = number;
-
-        localStorage.setItem('click-count', number);
-        activateAutoclicker();
-      } else {
-        alert('Недостаточно кликов для покупки автокликера!');
-      }
-    });
-
-
-    stopAutoclickerButton.addEventListener('click', function() {
-      deactivateAutoclicker();
-    });
-
-    function activateAutoclicker() {
-      if (!autoclickerActive) {
-        autoclickerActive = true;
-        stopAutoclickerButton.style.display = 'block';
-        autoclickInterval = setInterval(() => {
-          number += 100; 
-          numberDisplay.textContent = number;
-          localStorage.setItem('click-count', number);
-           }, 1000);
-
-
-    setTimeout(() => {
-      deactivateAutoclicker();
-    }, 3600000);
-  }
-}
-
-    function deactivateAutoclicker() {
-      clearInterval(autoclickInterval);
-      autoclickerActive = false;
-      stopAutoclickerButton.style.display = 'none';
-    }
-
-    function generateUserId() {
-    return Math.floor(100000 + Math.random() * 900000); 
-  }
-
-  let userId;
-
-  if (localStorage.getItem('userId')) {
-  userId = localStorage.getItem('userId'); 
-} else {
-    userId = generateUserId(); 
-    localStorage.setItem('userId', userId); 
-}
-  const userIdElement = document.getElementById('userId');
-  userIdElement.textContent = userId; 
   </script>
 </body>
-</html> 
+</html>
